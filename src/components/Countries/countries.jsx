@@ -1,35 +1,67 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Country from "../country/country";
-import './Countries.css'
+import './Countries.css';
 
+const Countries = () => {
+    const [countries, setCountries] = useState([]);
+    const [visitedCountries, setVisitedCountries] = useState([]);
+    const [visitedFlags, setVisitedFlags] = useState([]); 
 
-const countries = () => {
+    // Fetch countries data from API on component mount
+    useEffect(() => {
+        fetch('https://restcountries.com/v3.1/all')
+            .then(res => res.json())
+            .then(data => setCountries(data));
+    }, []);
 
-    const [countries,setCountries] = useState([])
+    // Add a country to the visited list
+    const handleVisitedCountry = (country) => {
+        console.log('Add this to your visited country:', country);
+        const newVisitedCountry = [...visitedCountries, country];
+        setVisitedCountries(newVisitedCountry);
+    };
 
-
-useEffect(()=>{
-fetch('https://restcountries.com/v3.1/all')
-.then(res => res.json())
-.then(data=>setCountries(data))
-
-}, [])
-
+    // Handle visited flags (add or track visited flags)
+    const handleVisitedFlags = (flag) => {
+        console.log('Flag adding:', flag);
+        const newVisitedFlag = [...visitedFlags, flag];
+        setVisitedFlags(newVisitedFlag);
+    };
 
     return (
-        <div >
-            <h3>countries :{countries.length}</h3>
-<div className="country-container">
-     {
+        <div>
+            <h3>Countries: {countries.length}</h3>
+            
+            {/* Visited countries list */}
+            <div>
+                <h5>Visited countries list: {visitedCountries.length}</h5>
+                <ul>
+                    {visitedCountries.map(country => 
+                        <li key={country.cca3}>{country.name.common}</li>
+                    )}
+                </ul>
+            </div>
 
-               countries.map(country  => 
-               <Country key={country.cca3} country={country}></Country>)
-            }
-</div>
-           
+            {/* Display visited flags */}
+            <div className="flag-container">
+                {visitedFlags.map((flag, index) => (
+                    <img key={index} src={flag} alt="Visited Flag" />
+                ))}
+            </div>
+
+            {/* Display all countries */}
+            <div className="country-container">
+                {countries.map(country => (
+                    <Country
+                        key={country.cca3}
+                        country={country}
+                        handleVisitedCountry={handleVisitedCountry}
+                        handleVisitedFlages={handleVisitedFlags} // Consistent prop naming
+                    />
+                ))}
+            </div>
         </div>
     );
 };
 
-export default countries;
+export default Countries;
