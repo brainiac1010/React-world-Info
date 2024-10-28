@@ -1,3 +1,4 @@
+// Countries.js
 import { useEffect, useState } from "react";
 import Country from "../country/country";
 import './Countries.css';
@@ -5,7 +6,7 @@ import './Countries.css';
 const Countries = () => {
     const [countries, setCountries] = useState([]);
     const [visitedCountries, setVisitedCountries] = useState([]);
-    const [visitedFlags, setVisitedFlags] = useState([]); 
+    const [visitedFlags, setVisitedFlags] = useState([]);
 
     // Fetch countries data from API on component mount
     useEffect(() => {
@@ -36,9 +37,9 @@ const Countries = () => {
             <div>
                 <h5>Visited countries list: {visitedCountries.length}</h5>
                 <ul>
-                    {visitedCountries.map(country => 
+                    {visitedCountries.map(country => (
                         <li key={country.cca3}>{country.name.common}</li>
-                    )}
+                    ))}
                 </ul>
             </div>
 
@@ -56,7 +57,7 @@ const Countries = () => {
                         key={country.cca3}
                         country={country}
                         handleVisitedCountry={handleVisitedCountry}
-                        handleVisitedFlages={handleVisitedFlags} // Consistent prop naming
+                        handleVisitedFlags={handleVisitedFlags} // Fixed prop name
                     />
                 ))}
             </div>

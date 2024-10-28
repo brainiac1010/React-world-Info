@@ -1,13 +1,15 @@
+// Country.js
 import React, { useState } from 'react';
 import './Country.css';
+import CountryDetails from '../countryDetails/CountryDetails'; // Make sure to import with the correct case
 
-const Country = ({ country, handleVisitedCountry, handleVisitedFlages }) => {  
+const Country = ({ country, handleVisitedCountry, handleVisitedFlags }) => {
     const { name, flags, area, capital, independent, cca3, languages, population, currencies } = country;
     const [visited, setVisited] = useState(false); 
 
     // Toggle visited state
     const handleVisited = () => {
-        setVisited(!visited); 
+        setVisited(!visited);
     };
 
     // Pass the selected country to the parent function
@@ -36,11 +38,19 @@ const Country = ({ country, handleVisitedCountry, handleVisitedFlages }) => {
             <button onClick={passWithParams}>Mark Visited</button> 
             <br /><br />
             
-            <button onClick={() => handleVisitedFlages(country.flags.png)}>Visited Flag</button>
+            <button onClick={() => handleVisitedFlags(country.flags.png)}>Visited Flag</button>
             <br /><br />
 
             <button onClick={handleVisited}>{visited ? 'Visited' : 'Going'}</button>
             <p>{visited ? 'I have visited this country' : 'I want to visit this country'}</p>
+
+            <hr />
+           
+            <CountryDetails 
+                country={country}
+                handleVisitedCountry={handleVisitedCountry}
+                handleVisitedFlags={handleVisitedFlags}
+            />
         </div>
     );
 };
